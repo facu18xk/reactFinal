@@ -14,7 +14,7 @@ export class CrudService<T, S extends ZodSchema<T>> {
     async create(item: T): Promise<T> {
         try {
             const res = await apiService.post(this.endpoint, item as object);
-            return this.schema.parse(res.results);
+            return this.schema.parse(res);
         } catch (error) {
             throw error;
         }
@@ -38,10 +38,9 @@ export class CrudService<T, S extends ZodSchema<T>> {
         }
     }
 
-    async delete(id: number): Promise<T> {
+    async delete(id: number): Promise<void> {
         try {
-            const res = await apiService.delete(`${this.endpoint}${id}/`);
-            return res;
+            await apiService.delete(`${this.endpoint}${id}/`);
         } catch (error) {
             throw error;
         }

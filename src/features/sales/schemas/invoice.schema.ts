@@ -1,6 +1,9 @@
 import { z } from "zod";
 
 export const InvoiceSchema = z.object({
+  id: z.int().optional(),
+  invoice_number: z.string().optional(),
+  customer_name: z.string().optional(),
   sale_order: z.int().describe("Sale order"),
   invoice_date: z
     .string()

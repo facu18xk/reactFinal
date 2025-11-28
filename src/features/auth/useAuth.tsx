@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { getEndpoint } from '@/features/sales/api/endpoints'
+import { apiService } from '../sales/api/api';
 
 const AuthContext = createContext<{
   token: string | null;
@@ -42,18 +43,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       return { ok: true };
-    } catch(err) {
+    } catch (err) {
       return { ok: false, error: "No se pudo conectar con el servidor" };
     }
   };
 
 
   const logout = async () => {
-       try {
+    try {
       const response = await fetch(getEndpoint("/users/users/logout/"), {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-        body:  JSON.stringify(localStorage.getItem('refresh_token') || '{}')
+        body: JSON.stringify(localStorage.getItem('refresh_token') || '{}')
       });
 
       if (!response.ok) {
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem('user');
 
       return { ok: true };
-    } catch(err) {
+    } catch (err) {
       return { ok: false, error: "No se pudo conectar con el servidor" };
     }
   };

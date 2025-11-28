@@ -1,6 +1,9 @@
 import { z } from "zod";
 
 export const CustomerSchema = z.object({
+  id: z
+    .number()
+    .optional(),
   name: z
     .string()
     .min(1, { message: "Minimo un carater" })

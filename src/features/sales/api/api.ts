@@ -5,10 +5,15 @@ class ApiService {
         this.token = token;
     }
 
+    getToken() {
+        this.token = localStorage.getItem("token");
+        return this.token;
+    }
+
     private getHeaders() {
         return {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.token}`
+            'Authorization': `Bearer ${this.getToken()}`
         }
     }
 
@@ -24,6 +29,10 @@ class ApiService {
             }
 
             const response = await fetch(url, payload);
+
+            if (response.status === 204) {
+                return;
+            }
 
             const data = await response.json();
             if (!response.ok) {
