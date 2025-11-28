@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut } from "lucide-react";
+import { CommandDialogMenu } from "./CommandDialog";
 
 import avatar from "@/assets/img/avatar.png"
 
@@ -34,6 +35,7 @@ const Header = () => {
             <Link to="/customers" className="text-sm font-medium text-muted-foreground hover:text-primary">Clientes</Link>
             <Link to="/products" className="text-sm font-medium text-muted-foreground hover:text-primary">Productos</Link>
         </nav>
+        <CommandDialogMenu/>
       </div>
 
       <div className="flex gap-x-2 md:gap-x-6 items-center">
