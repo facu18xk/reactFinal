@@ -10,6 +10,8 @@ export const endpoints = {
     invoices: getEndpoint('/sales/invoices/'),
     orderItems: getEndpoint('/sales/order-items/'),
     orders: getEndpoint('/sales/orders/'),
+    products: getEndpoint('/inventory/products/'),
+    categories: getEndpoint('/inventory/categories/'),
 }
 
 

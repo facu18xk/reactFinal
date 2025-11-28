@@ -5,8 +5,7 @@ import ProtectedRoute from "./features/auth/ProtectedRoute";
 import MainLayout from "./layouts/MainLayout";
 import { useAuth } from "./features/auth/useAuth";
 import Customers from "./pages/Customers";
-import Invoices from "./pages/Invoices";
-import Orders from "./pages/Orders";
+import Products from "./pages/inventory/Products";
 
 function App() {
   return (
@@ -17,8 +16,7 @@ function App() {
         </Route>
         <Route path="/dashboard" element={<div>Dashboard</div>} />
         <Route path="/customers" element={<Customers />} />
-        <Route path="/invoices" element={<Invoices />} />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/products" element={<Products />} />
       </Route>
 
       <Route path="/login" element={<AuthPage />} />

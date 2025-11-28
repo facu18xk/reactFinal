@@ -1,6 +1,6 @@
 import { Icons } from "@/components/icons";
 import { useAuth } from "@/features/auth/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -22,9 +22,15 @@ const Header = () => {
 
   return (
     <header className="w-full px-2 md:px-10 xl:px-26 py-4 bg-background border-b flex items-center justify-between">
-      <div className="flex gap-x-2">
-        <Icons.logo />
-        <span className="tracking-tighter font-semibold hidden sm:block">FIUNI Mini ERP</span>
+      <div className="flex gap-x-8 items-center">
+        <div className="flex gap-x-2">
+            <Icons.logo />
+            <span className="tracking-tighter font-semibold hidden sm:block">FIUNI Mini ERP</span>
+        </div>
+        <nav className="flex gap-x-4">
+            <Link to="/customers" className="text-sm font-medium text-muted-foreground hover:text-primary">Customers</Link>
+            <Link to="/products" className="text-sm font-medium text-muted-foreground hover:text-primary">Products</Link>
+        </nav>
       </div>
 
       <div className="flex gap-x-6 items-center">

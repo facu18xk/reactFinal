@@ -1,109 +1,73 @@
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-    TableFooter
-} from "@/components/ui/table"
-
-import { Pencil, Trash, Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { customersApi } from "@/features/sales/api/customer.api";
+import { productsApi } from "@/features/inventory/api/product.api";
+import { Users, Package } from "lucide-react";
 
 export default function HomePage() {
-    const invoices = [
-        {
-            invoice: "INV001",
-            paymentStatus: "Paid",
-            totalAmount: "$250.00",
-            paymentMethod: "Credit Card",
-        },
-        {
-            invoice: "INV002",
-            paymentStatus: "Pending",
-            totalAmount: "$150.00",
-            paymentMethod: "PayPal",
-        },
-        {
-            invoice: "INV003",
-            paymentStatus: "Unpaid",
-            totalAmount: "$350.00",
-            paymentMethod: "Bank Transfer",
-        },
-        {
-            invoice: "INV004",
-            paymentStatus: "Paid",
-            totalAmount: "$450.00",
-            paymentMethod: "Credit Card",
-        },
-        {
-            invoice: "INV005",
-            paymentStatus: "Paid",
-            totalAmount: "$550.00",
-            paymentMethod: "PayPal",
-        },
-        {
-            invoice: "INV006",
-            paymentStatus: "Pending",
-            totalAmount: "$200.00",
-            paymentMethod: "Bank Transfer",
-        },
-        {
-            invoice: "INV007",
-            paymentStatus: "Unpaid",
-            totalAmount: "$300.00",
-            paymentMethod: "Credit Card",
-        },
-    ]
+  const [customerCount, setCustomerCount] = useState(0);
+  const [productCount, setProductCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-    return (
-        <div>
-            <div className="flex flex-col lg:flex-row xl:flex-row lg:justify-between lg:items-center mb-10 gap-y-10">
-                <h1 className="text-3xl font-bold">Reporte de pedidos</h1>
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [customers, products] = await Promise.all([
+          customersApi.readAll(),
+          productsApi.readAll(),
+        ]);
+        setCustomerCount(customers.length);
+        setProductCount(products.length);
+      } catch (error) {
+        console.error("Error fetcheando los datos del dash", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-                <Button className="bg-primary">
-                    <Plus/>
-                    Crear pedido
-                </Button>
-            </div>
+    fetchData();
+  }, []);
 
-            <section>
-                <Table>
-                    <TableCaption>Una lista de todos los pedidos</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px]">Invoice</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Method</TableHead>
-                            <TableHead className="text-right">Amount</TableHead>
-                            <TableHead className="text-right">Acciones</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {invoices.map((invoice) => (
-                            <TableRow key={invoice.invoice}>
-                                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                                <TableCell>{invoice.paymentStatus}</TableCell>
-                                <TableCell>{invoice.paymentMethod}</TableCell>
-                                <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-                                <TableCell className="text-right">
-                                    <Button variant={"ghost"} className="hover:cursor-pointer">
-                                        <Pencil />
-                                    </Button>
-                                    <Button variant={"ghost"} className="hover:cursor-pointer hover:text-destructive">
-                                        <Trash />
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </section>
+  return (
+    <div>
+      <h1 className="text-3xl font-bold mb-10">Dashboard mini erp</h1>
 
+      {isLoading ? (
+        <div className="text-center">Cargando stats...</div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2">
+          <Link to="/customers">
+            <Card className="hover:bg-muted/50 transition-colors">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total clientes
+                </CardTitle>
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{customerCount}</div>
+                <p className="text-xs text-muted-foreground">Ir a clientes</p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link to="/products">
+            <Card className="hover:bg-muted/50 transition-colors">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total productos
+                </CardTitle>
+                <Package className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{productCount}</div>
+                <p className="text-xs text-muted-foreground">Ir a productos</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
-    )
+      )}
+    </div>
+  );
 }
-
-
