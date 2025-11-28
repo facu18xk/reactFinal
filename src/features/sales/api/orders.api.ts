@@ -8,7 +8,7 @@ import { apiService } from "./api.ts";
 
 class OrderService extends CrudService<SaleOrder, typeof SaleOrderSchema> {
   constructor() {
-    super(endpoints.orderItems, SaleOrderSchema);
+    super(endpoints.orders, SaleOrderSchema);
   }
 
   async confirm(order_id: number, order: SaleOrder) {

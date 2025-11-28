@@ -18,7 +18,7 @@ export const OrderItemSchema = z.object({
   unit_price: z
     .string()
     .min(1, { message: "Minimo 1 numero" })
-    .pipe(z.coerce.date()),
+    .pipe(z.coerce.number()),
   total_price: z
     .string()
     .min(1, { message: "Minimo 1 numero" })
