@@ -15,6 +15,7 @@ const AuthContext = createContext<{
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [refreshToken, setRefreshToken] = useState<string | null>(localStorage.getItem('refresh_token'));
   const [user, setUser] = useState<string | null>(localStorage.getItem('user'));
 
   const login = async (email: string, password: string) => {
@@ -34,8 +35,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const data = await response.json();
       setToken(data.access_token);
+      setRefreshToken(data.refresh_token)
       setUser(data.user);
       localStorage.setItem("token", data.access_token);
+      localStorage.setItem("refresh_token", JSON.stringify(data.refresh_token));
       localStorage.setItem("user", JSON.stringify(data.user));
 
       return { ok: true };
@@ -45,10 +48,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
 
-  const logout = () => {
-    setToken(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+  const logout = async () => {
+       try {
+      const response = await fetch(getEndpoint("/users/users/logout/"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body:  JSON.stringify(localStorage.getItem('refresh_token') || '{}')
+      });
+
+      if (!response.ok) {
+        if (response.status === 400 || response.status === 401) {
+          return { ok: false, error: "Credenciales incorrectas" };
+        }
+        return { ok: false, error: "Error en el servidor" };
+      }
+
+      setToken(null);
+      localStorage.removeItem('token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user');
+
+      return { ok: true };
+    } catch(err) {
+      return { ok: false, error: "No se pudo conectar con el servidor" };
+    }
   };
 
   return (
