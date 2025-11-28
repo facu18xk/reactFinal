@@ -3,6 +3,9 @@ import { useAuth } from "@/features/auth/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { LogOut } from "lucide-react";
+
+import avatar from "@/assets/img/avatar.png"
 
 
 const Header = () => {
@@ -23,30 +26,30 @@ const Header = () => {
   return (
     <header className="w-full px-2 md:px-10 xl:px-26 py-4 bg-background border-b flex items-center justify-between">
       <div className="flex gap-x-8 items-center">
-        <div className="flex gap-x-2">
+        <div className="flex gap-x-2 hover:cursor-pointer" onClick={() => navigate("/")}>
             <Icons.logo />
             <span className="tracking-tighter font-semibold hidden sm:block">FIUNI Mini ERP</span>
         </div>
         <nav className="flex gap-x-4">
-            <Link to="/customers" className="text-sm font-medium text-muted-foreground hover:text-primary">Customers</Link>
-            <Link to="/products" className="text-sm font-medium text-muted-foreground hover:text-primary">Products</Link>
+            <Link to="/customers" className="text-sm font-medium text-muted-foreground hover:text-primary">Clientes</Link>
+            <Link to="/products" className="text-sm font-medium text-muted-foreground hover:text-primary">Productos</Link>
         </nav>
       </div>
 
-      <div className="flex gap-x-6 items-center">
-        <Avatar>
-          <AvatarImage src="https://avatar.iran.liara.run/public/20" />
+      <div className="flex gap-x-2 md:gap-x-6 items-center">
+        <Avatar className="bg-purple-400" title={user.full_name}>
+          <AvatarImage src={avatar} />
           <AvatarFallback></AvatarFallback>
         </Avatar>
 
         <div className="flex flex-col">
-          <span className="text-sm">{user.full_name}</span>
-          <span className="text-sm text-muted-foreground">{user.email}</span>
+          <span className="text-sm hidden md:block">{user.full_name}</span>
+          <span className="text-sm text-muted-foreground hidden md:block">{user.email}</span>
         </div>
         
         <Button variant={"outline"} size={"sm"} onClick={handleLogout}>
-          <Icons.logOut />
-          Salir
+          <LogOut/>
+          <span className="hidden md:block">Salir</span>
         </Button>
       </div>
     </header>

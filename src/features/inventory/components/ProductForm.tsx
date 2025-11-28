@@ -135,7 +135,7 @@ export function ProductForm({
                 <FormItem>
                   <FormLabel>Descripcion</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="desc" {...field} />
+                    <Textarea placeholder="Descripción" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -166,16 +166,16 @@ export function ProductForm({
                     onValueChange={field.onChange}
                     defaultValue={String(field.value)}
                   >
-                    <FormControl>
+                    <FormControl className="min-w-full">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select una categoria" />
+                        <SelectValue placeholder="Selecciona una categoria" />
                       </SelectTrigger>
-                    </FormControl>
+                      </FormControl>
                     <SelectContent>
                       {categories.map((category) => (
                         <SelectItem
-                          key={category.id}
-                          value={String(category.id)}
+                        key={category.id}
+                        value={String(category.id)}
                         >
                           {category.name}
                         </SelectItem>
@@ -269,7 +269,7 @@ export function ProductForm({
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Active</FormLabel>
+                    <FormLabel>Activo</FormLabel>
                   </div>
                 </FormItem>
               )}
